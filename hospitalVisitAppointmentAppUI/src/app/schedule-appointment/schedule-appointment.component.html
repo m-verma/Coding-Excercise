@@ -1,0 +1,53 @@
+<div class="col-md-4 border border-dark p-3 mt-3 ml-3">
+  <h2 class="text-center">Schedule Appointment</h2>
+  <form [formGroup]="appointmentForm" (ngSubmit)="createAppointment()">
+    <div class="form-group">
+      <label for="fname">First Name:</label>
+      <input type="text" placeholder="First Name" name="fname" class="form-control" id="fname" formControlName="fname">
+      <span *ngIf="!appointmentForm.get('fname').valid && appointmentForm.get('fname').touched"
+        class="help-block text-danger">This field is required.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="lname">Last Name:</label>
+      <input type="text" placeholder="Last Name" name="lname" class="form-control" id="lname" formControlName="lname">
+      <span *ngIf="!appointmentForm.get('lname').valid && appointmentForm.get('lname').touched"
+        class="help-block text-danger">This field is required.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="dob">Date of Birth:</label>
+      <input type="date" placeholder="Date of Birth" name="dob" class="form-control" id="dob" formControlName="dob">
+      <span *ngIf="!appointmentForm.get('dob').valid && appointmentForm.get('dob').touched">
+        <span class="help-block text-danger" *ngIf="appointmentForm.get('dob').errors.dateInPast">Only past date is allowed, please enter valid Date of Birth.</span>
+        <span class="help-block text-danger" *ngIf="!appointmentForm.get('dob').errors.dateInPast">Invalid Date, please enter a valid Date of Birth.</span>
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="aptDate">Appointment DateTime</label>
+      <input type="datetime-local" placeholder="Appointment DateTime" name="aptDate" class="form-control" id="aptDate"
+        formControlName="aptDate">
+        <span *ngIf="!appointmentForm.get('aptDate').valid && appointmentForm.get('aptDate').touched">
+          <span class="help-block text-danger" *ngIf="appointmentForm.get('aptDate').errors.dateInFuture">Only future date is allowed, please enter valid Appointment DateTime.</span>
+          <span class="help-block text-danger" *ngIf="!appointmentForm.get('aptDate').errors.dateInFuture">Invalid Date, please enter a valid Appointment DateTime.</span>
+        </span>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!appointmentForm.valid">Submit</button>
+  </form>
+</div>
+
+<div class="col-md-5 mt-3" *ngIf="confirmationId">
+  <div class="alert alert-success mt-3" role="alert">  
+    <p class="text-success mb-0">Appointment has been successfully scheduled, confirmation id - <strong>{{confirmationId}}</strong></p>
+  </div>
+</div>
+
+<div class="col-md-4 mt-3" *ngIf="displayError">
+  <div class="alert alert-danger" role="alert">
+    <ul class="mb-0">
+      <li *ngFor="let err of errors">{{err}}</li>
+    </ul>
+  </div>
+</div>
